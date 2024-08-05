@@ -1,53 +1,27 @@
-import "./App.css";
-import useContentful from "./hooks/use-contentful";
-import { Carousel } from "./components/carousel.jsx";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.js";
+import GalleryTwo from "./pages/GalleryTwo.js";
+import GalleryOne from "./pages/GalleryOne.js";
+import About from "./pages/About.js";
+import Contact from "./pages/Contact.js";
 
-const query = `
-{
-  carouselCollection {
-    items {
-      title
-      description
-      image {
-        url
-        description
-      }
-    }
-  }
-}
-`;
+import "./App.css";
+import NavBar from "./components/NavBar"; // Import the NavBar component
 
 function App() {
-  const { data, error, loading } = useContentful(query);
-
-  if (loading) {
-    return "Loading...";
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  console.log("Fetched data:", data); // Log the fetched data
-
-  const carouselItems = data?.carouselCollection?.items || [];
-
-  if (carouselItems.length === 0) {
-    return <div>No data available</div>;
-  }
-
-  // Transform data for Carousel
-  const carouselData = carouselItems.map((item) => ({
-    src: item.image.url,
-    alt: item.title,
-  }));
-
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Carousel Example</h1>
-        <Carousel data={carouselData} />
-      </header>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/gallery-one" element={<GalleryOne />} />
+          <Route path="/gallery-two" element={<GalleryTwo />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

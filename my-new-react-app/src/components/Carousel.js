@@ -12,6 +12,10 @@ export const Carousel = ({ data }) => {
     setSlide(slide === 0 ? data.length - 1 : slide - 1);
   };
 
+  if (data.length === 0) {
+    return <div>No images available</div>;
+  }
+
   return (
     <div className="carousel">
       <button onClick={prevSlide} className="arrow arrow-left">

@@ -40,3 +40,32 @@
     transform: rotate(360deg);
   }
 }
+/* Basic styling for the NavBar */
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.navbar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar-list li {
+  margin: 0;
+}
+
+.navbar-list a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+}
+
+.navbar-list a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
