@@ -4,14 +4,15 @@
   width: 100%;
   max-width: 800px;
   margin: auto;
+  padding-bottom: 50px;
   overflow: hidden;
 }
 
 .image-gallery-content {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center align image */
-  position: relative; /* Make sure buttons are positioned relative to this container */
+  align-items: center;
+  position: relative;
 }
 
 .gallery-image {

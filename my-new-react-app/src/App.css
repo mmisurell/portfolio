@@ -1,14 +1,12 @@
-/* Basic styling for the App */
 .App {
   text-align: center;
 }
 
-/* Styling for App-header */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column; /* Center content vertically */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -46,7 +44,6 @@
   border-radius: 4px;
 }
 
-/* Hamburger menu styling */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -93,4 +90,10 @@
   .hamburger {
     display: flex;
   }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
 }
