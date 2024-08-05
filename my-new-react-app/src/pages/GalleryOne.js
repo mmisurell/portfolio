@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/Header";
-import { Carousel } from "../components/Carousel";
 import useContentful from "../hooks/useContentful";
 
 const QUERY = `
@@ -19,26 +18,15 @@ const QUERY = `
 `;
 
 function GalleryOne() {
-  const { data, loading, error } = useContentful(QUERY);
+  const { loading, error } = useContentful(QUERY);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const carouselItems = data?.carouselCollection?.items || [];
-  const carouselData = carouselItems.map((item) => ({
-    src: item.image.url,
-    alt: item.title,
-  }));
 
   return (
     <>
       <Header>
         <h2>Gallery One</h2>
-        {carouselData.length > 0 ? (
-          <Carousel data={carouselData} />
-        ) : (
-          <div>No images available</div>
-        )}
       </Header>
     </>
   );

@@ -1,40 +1,46 @@
-import React, { useState } from "react";
-import "./carousel.css";
+import React from "react";
+import Header from "./Header";
+import useContentful from "../hooks/useContentful";
 
-export const Carousel = ({ data }) => {
-  const [slide, setSlide] = useState(0);
-
-  const nextSlide = () => {
-    setSlide(slide === data.length - 1 ? 0 : slide + 1);
-  };
-
-  const prevSlide = () => {
-    setSlide(slide === 0 ? data.length - 1 : slide - 1);
-  };
-
-  if (data.length === 0) {
-    return <div>No images available</div>;
+const QUERY = `
+{
+  carouselCollection {
+    items {
+      title
+      description
+      image {
+        url
+        description
+      }
+    }
   }
+}
+`;
+
+function Carousel() {
+  const { data, loading, error } = useContentful(QUERY);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const carouselItems = data?.carouselCollection?.items || [];
+  const carouselData = carouselItems.map((item) => ({
+    src: item.image.url,
+    alt: item.title,
+  }));
 
   return (
-    <div className="carousel">
-      <button onClick={prevSlide} className="arrow arrow-left">
-        &lt;
-      </button>
-      {data.map((item, idx) => (
-        <img
-          src={item.src}
-          alt={item.alt}
-          key={idx}
-          className={slide === idx ? "slide" : "slide slide-hidden"}
-        />
-      ))}
-      <button onClick={nextSlide} className="arrow arrow-right">
-        &gt;
-      </button>
-      <div className="counter">
-        {slide + 1} / {data.length}
-      </div>
-    </div>
+    <>
+      <Header>
+        <h2>Gallery One</h2>
+        {carouselData.length > 0 ? (
+          <Carousel data={carouselData} />
+        ) : (
+          <div>No images available</div>
+        )}
+      </Header>
+    </>
   );
-};
+}
+
+export default GalleryOne;
