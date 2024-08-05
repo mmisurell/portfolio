@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../App.css"; // Ensure you import the updated CSS
+import "../App.css";
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,12 +27,7 @@ function NavBar() {
         </li>
         <li>
           <Link to="/gallery-one" onClick={toggleMenu}>
-            Gallery One
-          </Link>
-        </li>
-        <li>
-          <Link to="/gallery-two" onClick={toggleMenu}>
-            Gallery Two
+            Gallery
           </Link>
         </li>
         <li>

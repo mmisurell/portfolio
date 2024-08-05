@@ -3,11 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
-import GalleryOne from "./pages/GalleryOne";
-import GalleryTwo from "./pages/GalleryTwo";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import NoPage from "./pages/NoPage";
+import GalleryOne from "./pages/GalleryOne";
 
 function App() {
   return (
@@ -16,11 +14,9 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/gallery-one" element={<GalleryOne />} />
-          <Route path="/gallery-two" element={<GalleryTwo />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> {/* 404 page route */}
+          <Route path="/gallery-one" element={<GalleryOne />} />
         </Routes>
       </BrowserRouter>
     </div>
