@@ -1,9 +1,10 @@
 import React from "react";
+import ImageGallery from "../components/ImageGallery";
 
 function GalleryOne() {
   return (
     <>
-      <h2>Gallery</h2>
+      <ImageGallery />
     </>
   );
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./Header";
 import useContentful from "../hooks/useContentful";
 
 const QUERY = `
@@ -17,7 +16,7 @@ const QUERY = `
 }
 `;
 
-function Carousel() {
+function ImageGallery() {
   const { data, loading, error } = useContentful(QUERY);
 
   if (loading) return <div>Loading...</div>;
@@ -31,16 +30,14 @@ function Carousel() {
 
   return (
     <>
-      <Header>
-        <h2>Gallery One</h2>
-        {carouselData.length > 0 ? (
-          <Carousel data={carouselData} />
-        ) : (
-          <div>No images available</div>
-        )}
-      </Header>
+      <h2>Gallery</h2>
+      {carouselData.length > 0 ? (
+        <ImageGallery data={carouselData} />
+      ) : (
+        <div>No images available</div>
+      )}
     </>
   );
 }
 
-export default Carousel;
+export default ImageGallery;
