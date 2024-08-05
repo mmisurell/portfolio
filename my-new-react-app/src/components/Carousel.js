@@ -43,4 +43,4 @@ function Carousel() {
   );
 }
 
-export default GalleryOne;
+export default Carousel;

@@ -1,49 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Basic styling for the App */
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+/* Styling for App-header */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Center content vertically */
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* Basic styling for the NavBar */
 .navbar {
   background-color: #333;
-  padding: 10px;
+  padding: 10px 20px;
+  position: relative;
 }
 
 .navbar-list {
@@ -51,7 +26,8 @@
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .navbar-list li {
@@ -61,11 +37,60 @@
 .navbar-list a {
   color: #fff;
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 20px;
   display: block;
 }
 
 .navbar-list a:hover {
   background-color: #575757;
   border-radius: 4px;
+}
+
+/* Hamburger menu styling */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+.hamburger.active .bar1 {
+  transform: rotate(-45deg) translate(-10px, 10px);
+}
+
+.hamburger.active .bar2 {
+  opacity: 0;
+}
+
+.hamburger.active .bar3 {
+  transform: rotate(45deg) translate(-5px, -5px);
+}
+
+@media (max-width: 768px) {
+  .navbar-list {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .navbar-list.active {
+    display: flex;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    z-index: 1;
+  }
+
+  .hamburger {
+    display: flex;
+  }
 }
