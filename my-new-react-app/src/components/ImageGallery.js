@@ -62,7 +62,7 @@ const ImageGallery = () => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === exhibition.multipleFilesCollection.items.length - 1
+      prevIndex === exhibition.multipleFilesCollection.items.length
         ? 0
         : prevIndex + 1
     );
@@ -71,7 +71,7 @@ const ImageGallery = () => {
   const handleBack = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0
-        ? exhibition.multipleFilesCollection.items.length - 1
+        ? exhibition.multipleFilesCollection.items.length
         : prevIndex - 1
     );
   };
@@ -80,9 +80,19 @@ const ImageGallery = () => {
     return <div>Loading...</div>;
   }
 
-  const { title, subtitle, artists, dates, multipleFilesCollection } =
-    exhibition;
+  const {
+    title,
+    subtitle,
+    artists,
+    dates,
+    videoLink,
+    multipleFilesCollection,
+  } = exhibition;
   const images = multipleFilesCollection.items;
+  const currentItem =
+    currentIndex === images.length
+      ? { url: videoLink, description: "Video" }
+      : images[currentIndex];
 
   return (
     <div className="exhibition">
@@ -90,18 +100,33 @@ const ImageGallery = () => {
       {subtitle && <h2>{subtitle}</h2>}
       <div className="image-gallery">
         <div className="image-gallery-content">
-          <img
-            src={images[currentIndex].url}
-            alt={images[currentIndex].description}
-            className="gallery-image"
-          />
+          {currentItem.url.includes("youtube.com") ? (
+            <iframe
+              src={currentItem.url}
+              title={currentItem.description}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            ></iframe>
+          ) : (
+            <img
+              src={currentItem.url}
+              alt={currentItem.description}
+              className="gallery-image"
+            />
+          )}
         </div>
         <div className="nav-buttons">
           <button className="nav-button left" onClick={handleBack}>
             Back
           </button>
           <div className="counter">
-            {currentIndex + 1} / {images.length}
+            {currentIndex + 1} / {images.length + 1}
           </div>
           <button className="nav-button right" onClick={handleNext}>
             Next
@@ -116,9 +141,9 @@ const ImageGallery = () => {
         <h3>On View</h3>
         <p>{dates}</p>
       </div>
-      <div className="exhibition-multiple-file-collection-description">
+      <div className="exhibition-description">
         <h3>Description</h3>
-        <p>{images[currentIndex].description}</p>
+        <p>{currentItem.description}</p>
       </div>
     </div>
   );
