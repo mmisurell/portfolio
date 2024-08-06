@@ -40,18 +40,18 @@ query {
   }
 
   const { data } = await response.json();
-  return data.exhibition.multipleFilesCollection.items;
+  return data.exhibition;
 };
 
 const ImageGallery = () => {
-  const [images, setImages] = useState([]);
+  const [exhibition, setExhibition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchExhibition();
-        setImages(data);
+        setExhibition(data);
       } catch (error) {
         console.error("Error fetching exhibition:", error);
       }
@@ -62,39 +62,63 @@ const ImageGallery = () => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === exhibition.multipleFilesCollection.items.length - 1
+        ? 0
+        : prevIndex + 1
     );
   };
 
   const handleBack = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      prevIndex === 0
+        ? exhibition.multipleFilesCollection.items.length - 1
+        : prevIndex - 1
     );
   };
 
-  if (images.length === 0) {
-    return <div>No images available</div>;
+  if (!exhibition) {
+    return <div>Loading...</div>;
   }
 
+  const { title, subtitle, artists, dates, multipleFilesCollection } =
+    exhibition;
+  const images = multipleFilesCollection.items;
+
   return (
-    <div className="image-gallery">
-      <div className="image-gallery-content">
-        <img
-          src={images[currentIndex].url}
-          alt={images[currentIndex].description}
-          className="gallery-image"
-        />
-      </div>
-      <div className="nav-buttons">
-        <button className="nav-button left" onClick={handleBack}>
-          Back
-        </button>
-        <div className="counter">
-          {currentIndex + 1} / {images.length}
+    <div className="exhibition">
+      <h1>{title}</h1>
+      {subtitle && <h2>{subtitle}</h2>}
+      <div className="image-gallery">
+        <div className="image-gallery-content">
+          <img
+            src={images[currentIndex].url}
+            alt={images[currentIndex].description}
+            className="gallery-image"
+          />
         </div>
-        <button className="nav-button right" onClick={handleNext}>
-          Next
-        </button>
+        <div className="nav-buttons">
+          <button className="nav-button left" onClick={handleBack}>
+            Back
+          </button>
+          <div className="counter">
+            {currentIndex + 1} / {images.length}
+          </div>
+          <button className="nav-button right" onClick={handleNext}>
+            Next
+          </button>
+        </div>
+      </div>
+      <div className="exhibition-artists">
+        <h3>Artists</h3>
+        <p>{artists}</p>
+      </div>
+      <div className="exhibition-dates">
+        <h3>On View</h3>
+        <p>{dates}</p>
+      </div>
+      <div className="exhibition-multiple-file-collection-description">
+        <h3>Description</h3>
+        <p>{images[currentIndex].description}</p>
       </div>
     </div>
   );
