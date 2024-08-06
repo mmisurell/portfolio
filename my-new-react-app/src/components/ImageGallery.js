@@ -1,3 +1,4 @@
+// src/components/ImageGallery.js
 import React, { useState, useEffect } from "react";
 import "./carousel.css";
 
@@ -5,10 +6,11 @@ const SPACE_ID = process.env.REACT_APP_SPACE_ID;
 const ACCESS_TOKEN = process.env.REACT_APP_CDA_TOKEN;
 const GRAPHQL_ENDPOINT = `https://graphql.contentful.com/content/v1/spaces/${SPACE_ID}`;
 
-const fetchExhibition = async () => {
+// Fetch exhibition data based on the provided ID
+const fetchExhibition = async (id) => {
   const query = `
 query {
-  exhibition(id: "6yK6WPxTqNQFP99KWFbtOw") {
+  exhibition(id: "${id}") {
     title
     subtitle
     dates
@@ -43,14 +45,14 @@ query {
   return data.exhibition;
 };
 
-const ImageGallery = () => {
+const ImageGallery = ({ exhibitionId }) => {
   const [exhibition, setExhibition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchExhibition();
+        const data = await fetchExhibition(exhibitionId);
         setExhibition(data);
       } catch (error) {
         console.error("Error fetching exhibition:", error);
@@ -58,23 +60,7 @@ const ImageGallery = () => {
     };
 
     fetchData();
-  }, []);
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === exhibition.multipleFilesCollection.items.length
-        ? 0
-        : prevIndex + 1
-    );
-  };
-
-  const handleBack = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0
-        ? exhibition.multipleFilesCollection.items.length
-        : prevIndex - 1
-    );
-  };
+  }, [exhibitionId]);
 
   if (!exhibition) {
     return <div>Loading...</div>;
@@ -88,19 +74,51 @@ const ImageGallery = () => {
     videoLink,
     multipleFilesCollection,
   } = exhibition;
-  const images = multipleFilesCollection.items;
+  const images = multipleFilesCollection.items || [];
+
+  // Video is not part of the images array, so handle it separately
+  const hasVideo = videoLink && videoLink.trim() !== "";
+
+  // Make sure currentIndex is within the bounds of images
+  const imageCount = images.length;
+  const totalItems = hasVideo ? imageCount + 1 : imageCount;
+
   const currentItem =
-    currentIndex === images.length
+    currentIndex === imageCount && hasVideo
       ? { url: videoLink, description: "Video" }
-      : images[currentIndex];
+      : images[currentIndex] || { url: "", description: "No media available" };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex >= totalItems - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handleBack = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex <= 0 ? totalItems - 1 : prevIndex - 1
+    );
+  };
+
+  // Determine if the current item is an image or video
+  const isImage =
+    currentItem.url &&
+    !currentItem.url.includes("youtube.com") &&
+    !currentItem.url.includes("vimeo.com");
+  const isVideo =
+    currentItem.url &&
+    (currentItem.url.includes("youtube.com") ||
+      currentItem.url.includes("vimeo.com"));
 
   return (
     <div className="exhibition">
-      <h1>{title}</h1>
-      {subtitle && <h2>{subtitle}</h2>}
+      <div className="exhibition-title">
+        <h1>{title}</h1>
+        {subtitle && <h2>{subtitle}</h2>}
+      </div>
       <div className="image-gallery">
         <div className="image-gallery-content">
-          {currentItem.url.includes("youtube.com") ? (
+          {isVideo ? (
             <iframe
               src={currentItem.url}
               title={currentItem.description}
@@ -113,12 +131,14 @@ const ImageGallery = () => {
                 objectFit: "cover",
               }}
             ></iframe>
-          ) : (
+          ) : isImage ? (
             <img
               src={currentItem.url}
-              alt={currentItem.description}
+              alt={currentItem.description || "No description available"}
               className="gallery-image"
             />
+          ) : (
+            <div>No media available</div>
           )}
         </div>
         <div className="nav-buttons">
@@ -126,7 +146,7 @@ const ImageGallery = () => {
             Back
           </button>
           <div className="counter">
-            {currentIndex + 1} / {images.length + 1}
+            {currentIndex + 1} / {totalItems}
           </div>
           <button className="nav-button right" onClick={handleNext}>
             Next
@@ -143,7 +163,7 @@ const ImageGallery = () => {
       </div>
       <div className="exhibition-description">
         <h3>Description</h3>
-        <p>{currentItem.description}</p>
+        <p>{currentItem.description || "No description available"}</p>
       </div>
     </div>
   );

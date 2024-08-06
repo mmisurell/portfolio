@@ -26,8 +26,8 @@ function NavBar() {
           </Link>
         </li>
         <li>
-          <Link to="/gallery-one" onClick={toggleMenu}>
-            Gallery
+          <Link to="/exhibitions" onClick={toggleMenu}>
+            Exhibitions
           </Link>
         </li>
         <li>
