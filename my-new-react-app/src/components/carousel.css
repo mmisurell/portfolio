@@ -1,50 +1,59 @@
 .image-gallery {
   text-align: center;
   position: relative;
-  width: 100%;
-  max-width: 800px;
   margin: auto;
-  padding-bottom: 50px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .image-gallery-content {
+  width: 66vw; /* 66% of the viewport width */
+  height: 66vw; /* 66% of the viewport width to maintain a square aspect ratio */
+  max-width: 800px;
+  max-height: 524px; /* Maximum width for larger screens */
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   position: relative;
 }
 
 .gallery-image {
   max-width: 100%;
-  height: auto;
-  padding-bottom: 10px; /* Space between image and buttons */
+  max-height: 100%;
+  object-fit: contain; /* Ensure the image scales to fit the container */
 }
 
 .nav-buttons {
   display: flex;
-  justify-content: space-between; /* Space out buttons and counter */
-  align-items: baseline; /* Align buttons and counter text at baseline */
+  justify-content: space-between;
+  align-items: baseline;
   width: 100%;
-  padding: 0 20px; /* Space from edges */
-  position: relative;
+  padding: 10px 0; /* Space between the buttons and the gallery */
+  position: relative; /* Relative position to avoid covering the gallery */
 }
 
 .nav-button {
   background-color: #333;
   color: white;
   border: none;
-  padding: 10px 20px; /* Increase padding for better visibility */
+  padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
   border-radius: 4px;
 }
 
-.nav-button:hover {
-  background-color: #575757;
+.nav-button.left {
+  margin-right: auto;
+}
+
+.nav-button.right {
+  margin-left: auto;
 }
 
 .counter {
   font-size: 16px;
   color: #333;
+  margin: 0 10px;
 }

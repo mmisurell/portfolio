@@ -1,75 +1,103 @@
-import React, { useState } from "react";
-import useContentful from "../hooks/useContentful";
-import "../components/carousel.css";
+import React, { useState, useEffect } from "react";
+import "./carousel.css";
 
-const QUERY = `
-{
-  carouselCollection {
-    items {
-      title
-      description
-      image {
-        url
+const SPACE_ID = process.env.REACT_APP_SPACE_ID;
+const ACCESS_TOKEN = process.env.REACT_APP_CDA_TOKEN;
+const GRAPHQL_ENDPOINT = `https://graphql.contentful.com/content/v1/spaces/${SPACE_ID}`;
+
+const fetchExhibition = async () => {
+  const query = `
+query {
+  exhibition(id: "6yK6WPxTqNQFP99KWFbtOw") {
+    title
+    subtitle
+    dates
+    artists
+    videoLink
+    multipleFilesCollection {
+      items {
+        title
         description
+        contentType
+        fileName
+        url
       }
     }
   }
-}
-`;
+}`;
 
-function ImageGallery() {
-  const { data, loading, error } = useContentful(QUERY);
+  const response = await fetch(GRAPHQL_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+    body: JSON.stringify({ query }),
+  });
 
+  if (!response.ok) {
+    throw new Error(`Error fetching data: ${response.statusText}`);
+  }
+
+  const { data } = await response.json();
+  return data.exhibition.multipleFilesCollection.items;
+};
+
+const ImageGallery = () => {
+  const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchExhibition();
+        setImages(data);
+      } catch (error) {
+        console.error("Error fetching exhibition:", error);
+      }
+    };
 
-  const carouselItems = data?.carouselCollection?.items || [];
-
-  if (carouselItems.length === 0) {
-    return <div>No images available</div>;
-  }
+    fetchData();
+  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === carouselItems.length - 1 ? 0 : prevIndex + 1
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const handleBack = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? carouselItems.length - 1 : prevIndex - 1
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
-  const carouselData = carouselItems.map((item) => ({
-    src: item.image.url,
-    alt: item.title,
-  }));
+  if (images.length === 0) {
+    return <div>No images available</div>;
+  }
 
   return (
     <div className="image-gallery">
       <div className="image-gallery-content">
         <img
-          src={carouselData[currentIndex].src}
-          alt={carouselData[currentIndex].alt}
+          src={images[currentIndex].url}
+          alt={images[currentIndex].description}
           className="gallery-image"
         />
-        <div className="nav-buttons">
-          <button className="nav-button" onClick={handleBack}>
-            Back
-          </button>
-          <div className="counter">
-            {currentIndex + 1} / {carouselData.length}
-          </div>
-          <button className="nav-button" onClick={handleNext}>
-            Next
-          </button>
+      </div>
+      <div className="nav-buttons">
+        <button className="nav-button left" onClick={handleBack}>
+          Back
+        </button>
+        <div className="counter">
+          {currentIndex + 1} / {images.length}
         </div>
+        <button className="nav-button right" onClick={handleNext}>
+          Next
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default ImageGallery;

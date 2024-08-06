@@ -7,8 +7,6 @@ function GalleryOne() {
       <h1>Gallery Test</h1>
       <div className="gallery">
         <ImageGallery />
-        <p>Show information goes here</p>
-        <ImageGallery />
       </div>
     </div>
   );
