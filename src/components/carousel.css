@@ -1,0 +1,286 @@
+.exhibition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  border-top: none;
+  border-left: none;
+  border-right: var(--border-width) solid var(--border-color);
+  width: 100%;
+  background-color: #fcfcfc;
+}
+
+.exhibition-description {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 6px;
+  height: 54px;
+}
+
+.image-gallery {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 40%;
+  height: auto;
+  background-color: #fcfcfc;
+}
+
+.image-gallery-content {
+  width: 100%;
+  height: 40vw;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
+}
+
+.image-gallery-content iframe {
+  width: 100%;
+  height: 100vw;
+  max-height: 100vh;
+  object-fit: cover;
+}
+
+.gallery-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.gallery-wrapper {
+  display: flex;
+  border-bottom: var(--border-width) solid var(--border-color);
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.nav-frame-left,
+.nav-frame-right,
+.nav-right-mobile,
+.nav-left-mobile {
+  font-weight: 500;
+}
+
+.nav-button {
+  display: grid;
+  border: none;
+  align-items: center;
+  background-color: white;
+  height: 100%;
+  width: 34px;
+  font-size: 16px;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.nav-frame-left {
+  border-right: var(--border-width) solid var(--border-color);
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fcfcfc;
+}
+
+.nav-frame-right {
+  border-left: var(--border-width) solid var(--border-color);
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fcfcfc;
+}
+
+.counter {
+  font-size: 13px;
+  color: #383838;
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 0px;
+  justify-content: center;
+}
+
+.exhibition-dates {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-top: var(--border-width) solid var(--border-color);
+  padding-left: 16px;
+  height: 88px;
+}
+
+.exhibition-artists {
+  padding: 16px 32px 0px 16px;
+}
+
+.exhibition-artists a:link {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.exhibition-title p {
+  margin: 0;
+}
+
+.exhibition-title p:first-child {
+  display: inline;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-size: large;
+  color: #575757;
+}
+
+.exhibition-title p:not(:first-child) {
+  margin-top: 4px;
+  text-decoration: none;
+}
+
+.exhibition-description p {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.counter-wrapper-mobile {
+  padding-top: 16px;
+  padding-bottom: 0px;
+}
+
+.exhibitions-page {
+  border-top: var(--border-width) solid var(--border-color);
+  position: relative;
+  top: 36px;
+}
+
+.exhibition-page .exhibitions-page {
+  padding-bottom: 36px;
+}
+
+.rich-text-content h6 {
+  margin: 0 !important;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.gallery-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+.gallery-item.fade-out {
+  visibility: hidden;
+  transition: visibility 1s ease-out, opacity 1s ease-out;
+  opacity: 0;
+}
+
+.gallery-item.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+
+@media (max-width: 1024px) {
+  .side-bar {
+    width: 80%;
+  }
+
+  .page {
+    background-color: #fcfcfc;
+  }
+
+  .page .gallery-image {
+    display: flex;
+    justify-content: center;
+    object-fit: contain;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+    padding-top: 0px;
+  }
+
+  .exhibition-dates {
+    border: none;
+    padding: 0px;
+    padding-left: 16px;
+  }
+
+  .exhibition-dates p {
+    padding: 0px;
+    margin-top: 0px;
+    padding-bottom: 16px;
+  }
+
+  .exhibition-artists {
+    width: 100%;
+    padding-bottom: 0px;
+  }
+
+  .exhibition {
+    border: none;
+  }
+
+  .p {
+    padding: none;
+  }
+
+  .exhibition-description p {
+    padding-left: 0px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .exhibition-description {
+    min-height: 0px;
+    width: auto;
+    border: none;
+    padding-left: 0px;
+    align-items: center;
+  }
+
+  .gallery-item {
+    padding: top 0px;
+  }
+
+  .nav-frame-right {
+    display: none;
+  }
+
+  .nav-frame-left {
+    display: none;
+  }
+
+  .image-gallery-content {
+    height: 80vh !important; /* Force override */
+  }
+}

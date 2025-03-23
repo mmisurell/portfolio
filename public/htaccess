@@ -1,0 +1,21 @@
+AllowOverride All
+RewriteEngine On
+RewriteBase /horseandponyfinearts/
+
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/exhibition$
+RewriteRule ^ /#exhibition [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/about$
+RewriteRule ^ /#about [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/contact$
+RewriteRule ^ /#contact [R=301,L]
+
+# Add more as needed for other routes.
+

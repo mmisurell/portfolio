@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "Avenir Next";
+  src: url("/public/fonts/AvenirNextLTPro-Bold.otf") format("otf"),
+    url("/public/fonts/AvenirNextLTPro-Demi.otf") format("otf"),
+    url("/public/fonts/AvenirNextLTPro-Regular.otf") format("otf");
+  font-weight: bold;
+  font-style: demi;
+  font-style: normal;
+}
+
+/* Apply Avenir Next to the body */
+body {
+  margin: 0;
+  font-family: "Avenir Next", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
